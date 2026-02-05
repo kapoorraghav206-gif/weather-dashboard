@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <!-- Background Elements -->
+    <div class="bg-image"></div>
+    <div class="bg-blur-1"></div>
+    <div class="bg-blur-2"></div>
+
+    <main class="app-container">
+      <div class="glass-card">
+        <!-- Header -->
+        <header>
+          <h1>Weather<span class="highlight">Cast</span></h1>
+          <p class="subtitle">Global Forecasts at Your Fingertips</p>
+        </header>
+
+        <!-- Unit Toggle -->
+        <div class="toggle-container">
+          <span class="toggle-label">°C</span>
+          <label class="switch">
+            <input type="checkbox" id="unit-toggle">
+            <span class="slider"></span>
+          </label>
+          <span class="toggle-label">°F</span>
+        </div>
+
+        <!-- Search Section -->
+        <div class="search-box">
+          <div class="input-wrapper">
+            <input type="text" id="city-input" placeholder="Search for a city..." aria-label="City name" />
+            <button id="get-weather-btn" aria-label="Get Weather">
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Quick Access Cities -->
+        <div id="quick-cities" class="quick-access">
+          <button class="chip" onclick="document.getElementById('city-input').value='New York'; document.getElementById('get-weather-btn').click()">New York</button>
+          <button class="chip" onclick="document.getElementById('city-input').value='London'; document.getElementById('get-weather-btn').click()">London</button>
+          <button class="chip" onclick="document.getElementById('city-input').value='Tokyo'; document.getElementById('get-weather-btn').click()">Tokyo</button>
+          <button class="chip" onclick="document.getElementById('city-input').value='Paris'; document.getElementById('get-weather-btn').click()">Paris</button>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loading-spinner" class="hidden">
+          <div class="spinner-ring"></div>
+        </div>
+
+        <!-- Error State -->
+        <p id="error-message" class="error-msg hidden">City not found. Please try again.</p>
+
+        <!-- Weather Display -->
+        <div id="weather-info" class="hidden">
+          
+          <!-- Main Weather Block -->
+          <div class="weather-main-display">
+            <div class="weather-icon-wrapper">
+              <img id="weather-icon-img" src="" alt="Weather Icon" class="hidden" />
+            </div>
+            <div class="weather-text">
+              <h2 id="city-name">--</h2>
+              <p id="local-time" class="local-time">--:--</p>
+              <div class="temp-wrapper">
+                 <p id="temperature">--°C</p>
+              </div>
+              <p id="description" class="weather-desc">--</p>
+            </div>
+          </div>
+
+          <!-- Stats Grid -->
+          <div class="stats-grid">
+            <div class="stat-card">
+              <span class="stat-icon">💨</span>
+              <div class="stat-info">
+                <span class="label">Wind</span>
+                <span id="wind-speed" class="value">--</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <span class="stat-icon">💧</span>
+              <div class="stat-info">
+                <span class="label">Humidity</span>
+                <span id="humidity" class="value">--</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <span class="stat-icon">👁️</span> <!-- Changed icon for generic pressure visual -->
+              <div class="stat-info">
+                <span class="label">Pressure</span>
+                <span id="pressure" class="value">--</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5-Day Forecast -->
+          <div id="forecast-section" class="forecast-section">
+            <h3>5-Day Forecast</h3>
+            <div id="forecast-container" class="forecast-container">
+              <!-- Forecast items injected by JS -->
+            </div>
+          </div>
+
+          <!-- Extended Details: Sun & Wind Direction -->
+          <div class="stats-grid extended-grid">
+            <div class="stat-card">
+              <span class="stat-icon">🌅</span>
+              <div class="stat-info">
+                <span class="label">Sunrise</span>
+                <span id="sunrise" class="value">--:--</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <span class="stat-icon">🌇</span>
+              <div class="stat-info">
+                <span class="label">Sunset</span>
+                <span id="sunset" class="value">--:--</span>
+              </div>
+            </div>
+            <div class="stat-card">
+              <div class="compass-circle">
+                 <span id="wind-dir-arrow" class="compass-arrow">➤</span>
+              </div>
+              <div class="stat-info">
+                <span class="label">Wind Dir</span>
+                <span id="wind-dir-text" class="value">--</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Map Section -->
+          <div id="map-section" class="map-section">
+             <h3>📍 Location Map</h3>
+             <div class="map-frame">
+                <iframe id="city-map" width="100%" height="200" style="border:0;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+             </div>
+          </div>
+
+        </div>
+
+        <!-- Recent History -->
+        <div id="history-section" class="history-panel">
+          <h3>Recent Searches</h3>
+          <ul id="search-history" class="history-list">
+            <!-- Items injected by JS -->
+          </ul>
+        </div>
+      </div>
+    </main>
+    
+    <script src="script.js"></script>
+  </body>
+</html>
