@@ -1,5 +1,6 @@
 // Weather App Logic
-const API_KEY = '2463372379f241479b8ec28a2882d0d9'; // Updated API Key
+const WEATHER_API_KEY = '23b279f0bd4aabad95016011d344b1d2'; // Weather Data API Key
+const MAP_API_KEY = '2463372379f241479b8ec28a2882d0d9'; // Map Tiles API Key
 
 // Weather Background Images (Unsplash)
 const weatherImages = {
@@ -179,7 +180,7 @@ function updateBackgroundImage(weatherMain) {
 async function fetchForecast(city) {
     try {
         const response = await fetch(
-            `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(city)}&appid=${API_KEY}&units=metric`
+            `https://api.openweathermap.org/data/2.5/forecast?q=${encodeURIComponent(city)}&appid=${WEATHER_API_KEY}&units=metric`
         );
         
         if (!response.ok) return; // Silent fail for forecast if main weather works
@@ -219,7 +220,7 @@ async function fetchWeather(city) {
 
     try {
         const response = await fetch(
-            `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${API_KEY}&units=metric`
+            `https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(city)}&appid=${WEATHER_API_KEY}&units=metric`
         );
 
         if (!response.ok) {
@@ -272,7 +273,7 @@ async function fetchWeather(city) {
             }).addTo(mapInstance);
 
             // Add Precipitation Layer (OpenWeatherMap) - Optional but nice use of the key
-            L.tileLayer(`https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=${API_KEY}`, {
+            L.tileLayer(`https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=${MAP_API_KEY}`, {
                 maxZoom: 18
             }).addTo(mapInstance);
 
