@@ -9,8 +9,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css" />
 
-    <!-- Content Security Policy -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' https://openweathermap.org https://images.unsplash.com; style-src 'self' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; script-src 'self'; connect-src 'self' https://api.openweathermap.org; frame-src https://maps.google.com https://www.google.com;">
+    <!-- Leaflet Map CSS & JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   </head>
   <body>
     <!-- Background Elements -->
@@ -48,10 +49,10 @@
 
         <!-- Quick Access Cities -->
         <div id="quick-cities" class="quick-access">
-          <button class="chip" onclick="searchCity('New York')">New York</button>
-          <button class="chip" onclick="searchCity('London')">London</button>
-          <button class="chip" onclick="searchCity('Tokyo')">Tokyo</button>
-          <button class="chip" onclick="searchCity('Paris')">Paris</button>
+          <button class="chip" data-city="New York">New York</button>
+          <button class="chip" data-city="London">London</button>
+          <button class="chip" data-city="Tokyo">Tokyo</button>
+          <button class="chip" data-city="Paris">Paris</button>
         </div>
 
         <!-- Loading State -->
@@ -144,7 +145,7 @@
           <div id="map-section" class="map-section">
              <h3>📍 Location Map</h3>
              <div class="map-frame">
-                <iframe id="city-map" width="100%" height="200" style="border:0;" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                <div id="city-map"></div>
              </div>
           </div>
 

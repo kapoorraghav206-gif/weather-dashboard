@@ -445,6 +445,93 @@ h2#city-name {
         height: 100vh;
         border-radius: 0;
         justify-content: flex-start;
+        padding: 20px;
+    }
+
+    /* Mobile Search Box Enhancements */
+    .input-wrapper {
+        padding: 8px 8px 8px 18px;
+    }
+
+    #city-input {
+        font-size: 1rem;
+    }
+
+    /* Larger, more prominent mobile search button */
+    #get-weather-btn {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
+        box-shadow: 0 4px 15px hsla(var(--primary), 0.4);
+    }
+
+    #get-weather-btn svg {
+        width: 24px;
+        height: 24px;
+    }
+
+    #get-weather-btn:active {
+        transform: scale(0.95);
+        box-shadow: 0 2px 8px hsla(var(--primary), 0.3);
+    }
+
+    /* Quick cities - scrollable on mobile */
+    .quick-access {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding-bottom: 5px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+    }
+
+    .quick-access::-webkit-scrollbar {
+        display: none;
+    }
+
+    .chip {
+        flex-shrink: 0;
+        padding: 10px 18px;
+        font-size: 0.9rem;
+    }
+
+    /* Stats grid adjustments for mobile */
+    .stats-grid {
+        gap: 10px;
+    }
+
+    .stat-card {
+        padding: 12px 8px;
+    }
+
+    .stat-icon {
+        font-size: 1.2rem;
+    }
+
+    .stat-info .label {
+        font-size: 0.7rem;
+    }
+
+    .stat-info .value {
+        font-size: 0.85rem;
+    }
+
+    /* Header adjustments */
+    header h1 {
+        font-size: 1.6rem;
+    }
+
+    .subtitle {
+        font-size: 0.8rem;
+    }
+
+    /* Temperature adjustments */
+    .temp-wrapper {
+        font-size: 2.8rem;
+    }
+
+    h2#city-name {
+        font-size: 1.3rem;
     }
 }
 
@@ -633,4 +720,11 @@ input:checked+.slider:before {
     border: 1px solid rgba(255, 255, 255, 0.1);
     background: rgba(0, 0, 0, 0.2);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+#city-map {
+    width: 100%;
+    height: 200px;
+    z-index: 1;
+    /* Ensure map is visible/interactive */
 }

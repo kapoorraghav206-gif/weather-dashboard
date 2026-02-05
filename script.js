@@ -1,6 +1,5 @@
 // Weather App Logic
-const API_KEY = '23b279f0bd4aabad95016011d344b1d2'; // Provided API Key
-const MAP_API_KEY = 'AIzaSyAjjUzNI_B-WTC6TO3zUq7wdwB7kHP4sFo'; // Google Maps Embed API Key
+const API_KEY = '2463372379f241479b8ec28a2882d0d9'; // Updated API Key
 
 // Weather Background Images (Unsplash)
 const weatherImages = {
@@ -46,6 +45,7 @@ const elements = {
 let searchHistory = [];
 let currentTempCelsius = null; // Store base temperature
 let forecastData = []; // Store forecast data for unit toggle
+let mapInstance = null; // Leaflet map instance
 
 // Helper Functions
 function showSpinner(show) {
@@ -215,7 +215,7 @@ async function fetchWeather(city) {
     elements.weatherIcon.classList.add('hidden');
     elements.forecastContainer.innerHTML = ''; // Clear old forecast
     forecastData = [];
-    elements.cityMap.src = ''; // Clear map
+    // Map reset not needed for Leaflet instance reuse
 
     try {
         const response = await fetch(
@@ -258,10 +258,43 @@ async function fetchWeather(city) {
             elements.windDirArrow.style.transform = `rotate(${windDeg - 90}deg)`;
         }
 
-        // Update Map
-        // Using OpenStreetMap/Google Maps embed hack
-        // Use coordinates for precision
-        elements.cityMap.src = `https://www.google.com/maps/embed/v1/view?key=${MAP_API_KEY}&center=${data.coord.lat},${data.coord.lon}&zoom=13`;
+        // Update Map (Leaflet)
+        const lat = data.coord.lat;
+        const lon = data.coord.lon;
+
+        if (!mapInstance) {
+            // Initialize Map
+            mapInstance = L.map('city-map').setView([lat, lon], 12);
+            
+            // Add OpenStreetMap Base Layer
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap contributors'
+            }).addTo(mapInstance);
+
+            // Add Precipitation Layer (OpenWeatherMap) - Optional but nice use of the key
+            L.tileLayer(`https://tile.openweathermap.org/map/precipitation_new/{z}/{x}/{y}.png?appid=${API_KEY}`, {
+                maxZoom: 18
+            }).addTo(mapInstance);
+
+        } else {
+            // Update View
+            mapInstance.setView([lat, lon], 12);
+        }
+
+        // Add/Update Marker
+        // Remove existing markers if any (simple approach: clear layers or track marker)
+        // For simplicity, we just add a marker. To prevent duplicates, we can't easily clear without tracking.
+        // Better:
+        mapInstance.eachLayer((layer) => {
+             if (layer instanceof L.Marker) {
+                 mapInstance.removeLayer(layer);
+             }
+        });
+        
+        L.marker([lat, lon])
+            .addTo(mapInstance)
+            .bindPopup(`<b>${data.name}</b><br>${data.weather[0].description}`)
+            .openPopup();
 
         // Update UI Text
         elements.cityName.textContent = `${data.name}, ${data.sys.country}`;
@@ -320,6 +353,17 @@ document.addEventListener('DOMContentLoaded', () => {
             fetchWeather(city);
         }
     });
+
+    // Quick City Buttons - Event Delegation
+    const quickCitiesContainer = document.getElementById('quick-cities');
+    if (quickCitiesContainer) {
+        quickCitiesContainer.addEventListener('click', (e) => {
+            const chip = e.target.closest('.chip');
+            if (chip && chip.dataset.city) {
+                searchCity(chip.dataset.city);
+            }
+        });
+    }
 
     // Unit Toggle
     elements.unitToggle.addEventListener('change', updateTemperatureDisplay);
