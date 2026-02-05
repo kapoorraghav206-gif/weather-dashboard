@@ -1,5 +1,6 @@
 // Weather App Logic
 const API_KEY = '23b279f0bd4aabad95016011d344b1d2'; // Provided API Key
+const MAP_API_KEY = 'AIzaSyAjjUzNI_B-WTC6TO3zUq7wdwB7kHP4sFo'; // Google Maps Embed API Key
 
 // Weather Background Images (Unsplash)
 const weatherImages = {
@@ -260,7 +261,7 @@ async function fetchWeather(city) {
         // Update Map
         // Using OpenStreetMap/Google Maps embed hack
         // Use coordinates for precision
-        elements.cityMap.src = `https://maps.google.com/maps?q=${data.coord.lat},${data.coord.lon}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
+        elements.cityMap.src = `https://www.google.com/maps/embed/v1/view?key=${MAP_API_KEY}&center=${data.coord.lat},${data.coord.lon}&zoom=13`;
 
         // Update UI Text
         elements.cityName.textContent = `${data.name}, ${data.sys.country}`;
