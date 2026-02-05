@@ -292,6 +292,12 @@ async function fetchWeather(city) {
     }
 }
 
+// Quick City Search Function
+function searchCity(cityName) {
+    elements.cityInput.value = cityName.trim();
+    fetchWeather(cityName.trim());
+}
+
 // Event Listeners
 document.addEventListener('DOMContentLoaded', () => {
     // Load History
